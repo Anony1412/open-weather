@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:open_wherether/ui/home/home_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +14,8 @@ class MyApp extends StatelessWidget {
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final deviceSize = MediaQuery.of(context).size;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.lightBlue,
@@ -17,15 +23,11 @@ class SplashScreen extends StatelessWidget {
           children: [
             _buildTextAppName(),
             _buildImageLogo(),
-            _buildButtonExplore(),
+            _buildButtonExplore(context),
           ],
         ),
       ),
     );
-  }
-
-  _buttonExploreClick() {
-    // navigate to home screen
   }
 
   _buildTextAppName() => Expanded(
@@ -53,20 +55,20 @@ class SplashScreen extends StatelessWidget {
     ),
   );
 
-  _buildButtonExplore() => Expanded(
+  _buildButtonExplore(BuildContext context) => Expanded(
     child: Container(
       child: Padding(
         padding: EdgeInsets.only(bottom: 32.0),
         child: Align(
           alignment: Alignment.bottomCenter,
-          child: _buildContentButton(),
+          child: _buildContentButton(context),
         ),
       ),
     ),
   );
 
-  _buildContentButton() => RaisedButton(
-    onPressed: _buttonExploreClick,
+  _buildContentButton(BuildContext context) => RaisedButton(
+    onPressed: () => _navigateToHomeScreen(context),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(32.0),
     ),
@@ -86,4 +88,12 @@ class SplashScreen extends StatelessWidget {
       ),
     ),
   );
+
+
+  void _navigateToHomeScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen())
+    );
+  }
 }
